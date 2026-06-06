@@ -36,9 +36,7 @@ import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.isTablet
 import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openUrl
-import app.olauncher.helper.rateApp
 import app.olauncher.helper.setPlainWallpaper
-import app.olauncher.helper.shareApp
 import app.olauncher.helper.showToast
 import app.olauncher.listener.DeviceAdmin
 
@@ -71,7 +69,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         checkAdminPermission()
 
         binding.homeAppsNum.text = prefs.homeAppsNum.toString()
-        populateProMessage()
         populateKeyboardText()
         populateScreenTimeOnOff()
         populateLockSettings()
@@ -88,9 +85,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateActionHints()
         initClickListeners()
         initObservers()
-
-        if (showPentastic)
-            binding.footer.text = getText(R.string.new_app_minimal_todo_lists)
     }
 
     override fun onResume() {
@@ -114,7 +108,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
-            R.id.moreFeatures -> viewModel.showDialog.postValue(Constants.Dialog.PRO_MESSAGE)
             R.id.screenTimeOnOff -> viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
             R.id.appInfo -> openAppInfo(requireContext(), Process.myUserHandle(), BuildConfig.APPLICATION_ID)
             R.id.setLauncher -> viewModel.resetLauncherLiveData.call()
@@ -169,21 +162,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 prefs.aboutClicked = true
                 requireContext().openUrl(Constants.URL_ABOUT_OLAUNCHER)
             }
-
-            R.id.share -> requireActivity().shareApp()
-            R.id.rate -> {
-                prefs.rateClicked = true
-                requireActivity().rateApp()
-            }
-
-            R.id.twitter -> requireContext().openUrl(Constants.URL_TWITTER_TANUJ)
             R.id.github -> requireContext().openUrl(Constants.URL_OLAUNCHER_GITHUB)
-            R.id.privacy -> requireContext().openUrl(Constants.URL_OLAUNCHER_PRIVACY)
-            R.id.footer -> {
-                requireContext().openUrl(
-                    if (showPentastic) Constants.URL_PENTASTIC else Constants.URL_NTS
-                )
-            }
         }
     }
 
@@ -214,7 +193,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.appInfo.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
         binding.aboutOlauncher.setOnClickListener(this)
-        binding.moreFeatures.setOnClickListener(this)
         binding.autoShowKeyboard.setOnClickListener(this)
         binding.toggleLock.setOnClickListener(this)
         binding.homeButtonRecents.setOnClickListener(this)
@@ -247,12 +225,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.closeAccessibility.setOnClickListener(this)
         binding.notWorking.setOnClickListener(this)
 
-        binding.share.setOnClickListener(this)
-        binding.rate.setOnClickListener(this)
-        binding.twitter.setOnClickListener(this)
+//        binding.share.setOnClickListener(this)
+//        binding.rate.setOnClickListener(this)
+//        binding.twitter.setOnClickListener(this)
         binding.github.setOnClickListener(this)
-        binding.privacy.setOnClickListener(this)
-        binding.footer.setOnClickListener(this)
+//        binding.privacy.setOnClickListener(this)
+//        binding.footer.setOnClickListener(this)
 
         binding.maxApps0.setOnClickListener(this)
         binding.maxApps1.setOnClickListener(this)
@@ -276,11 +254,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun initObservers() {
-        // TODO: remove fully
-//        if (prefs.firstSettingsOpen) {
-//            viewModel.showDialog.postValue(Constants.Dialog.ABOUT)
-//            prefs.firstSettingsOpen = false
-//        }
+        if (prefs.firstSettingsOpen) {
+            prefs.firstSettingsOpen = false
+        }
         viewModel.isOlauncherDefault.observe(viewLifecycleOwner) {
             if (it) {
                 binding.setLauncher.text = getString(R.string.change_default_launcher)
@@ -515,14 +491,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun toggleKeyboardText() {
-        if (prefs.autoShowKeyboard && prefs.keyboardMessageShown.not()) {
-            // TODO: remove fully
-//            viewModel.showDialog.postValue(Constants.Dialog.KEYBOARD)
-//            prefs.keyboardMessageShown = true
-        } else {
-            prefs.autoShowKeyboard = !prefs.autoShowKeyboard
-            populateKeyboardText()
-        }
+        prefs.autoShowKeyboard = !prefs.autoShowKeyboard
+        populateKeyboardText()
     }
 
     private fun updateTheme(appTheme: Int) {
@@ -683,15 +653,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         if (prefs.aboutClicked.not())
             binding.aboutOlauncher.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info, 0)
         if (viewModel.isOlauncherDefault.value != true) return
-        if (prefs.rateClicked.not() && prefs.toShowHintCounter > Constants.HINT_RATE_US && prefs.toShowHintCounter < Constants.HINT_RATE_US + 100)
-            binding.rate.setCompoundDrawablesWithIntrinsicBounds(0, android.R.drawable.arrow_down_float, 0, 0)
-    }
-
-    private fun populateProMessage() {
-        if (prefs.proMessageShown.not() && prefs.userState == Constants.UserState.SHARE) {
-            prefs.proMessageShown = true
-            viewModel.showDialog.postValue(Constants.Dialog.PRO_MESSAGE)
-        }
     }
 
     override fun onDestroyView() {

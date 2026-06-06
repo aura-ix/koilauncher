@@ -35,10 +35,8 @@ import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.isTablet
 import app.olauncher.helper.openUrl
-import app.olauncher.helper.rateApp
 import app.olauncher.helper.resetLauncherViaFakeActivity
 import app.olauncher.helper.setPlainWallpaper
-import app.olauncher.helper.shareApp
 import app.olauncher.helper.showLauncherSelector
 import app.olauncher.helper.showToast
 import kotlinx.coroutines.Job
@@ -201,74 +199,14 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.showDialog.observe(this) {
             when (it) {
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.ABOUT -> {
-                    showMessageDialog(R.string.app_name, R.string.welcome_to_olauncher_settings, R.string.okay) {
-                        binding.messageLayout.visibility = View.GONE
-                    }
-                }
-
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.WALLPAPER -> {
-                    prefs.wallpaperMsgShown = true
-                    prefs.userState = Constants.UserState.REVIEW
-                    showMessageDialog(R.string.did_you_know, R.string.wallpaper_message, R.string.enable) {
-                        prefs.dailyWallpaper = true
-                        viewModel.setWallpaperWorker()
-                        showToast(getString(R.string.your_wallpaper_will_update_shortly))
-                    }
-                }
-
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.REVIEW -> {
-                    prefs.userState = Constants.UserState.RATE
-                    showMessageDialog(R.string.hey, R.string.review_message, R.string.leave_a_review) {
-                        prefs.rateClicked = true
-                        showToast("😇❤️")
-                        rateApp()
-                    }
-                }
-
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.RATE -> {
-                    prefs.userState = Constants.UserState.SHARE
-                    showMessageDialog(R.string.app_name, R.string.rate_us_message, R.string.rate_now) {
-                        prefs.rateClicked = true
-                        showToast("🤩❤️")
-                        rateApp()
-                    }
-                }
-
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.SHARE -> {
-                    prefs.shareShownTime = System.currentTimeMillis()
-                    showMessageDialog(R.string.hey, R.string.share_message, R.string.share_now) {
-                        showToast("😊❤️")
-                        shareApp()
-                    }
-                }
-
                 Constants.Dialog.HIDDEN -> {
                     showMessageDialog(R.string.hidden_apps, R.string.hidden_apps_message, R.string.okay) {
-                    }
-                }
-
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.KEYBOARD -> {
-                    showMessageDialog(R.string.app_name, R.string.keyboard_message, R.string.okay) {
                     }
                 }
 
                 Constants.Dialog.DIGITAL_WELLBEING -> {
                     showMessageDialog(R.string.screen_time, R.string.app_usage_message, R.string.permission) {
                         startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
-                    }
-                }
-
-                // TODO: remove fully instead of just trigger
-                Constants.Dialog.PRO_MESSAGE -> {
-                    showMessageDialog(R.string.hey, R.string.pro_message, R.string.olauncher_pro) {
-                        openUrl(Constants.URL_OLAUNCHER_PRO)
                     }
                 }
             }

@@ -13,7 +13,6 @@ class Prefs(context: Context) {
     private val FIRST_OPEN_TIME = "FIRST_OPEN_TIME"
     private val FIRST_SETTINGS_OPEN = "FIRST_SETTINGS_OPEN"
     private val FIRST_HIDE = "FIRST_HIDE"
-    private val USER_STATE = "USER_STATE"
     private val LOCK_MODE = "LOCK_MODE"
     private val HOME_APPS_NUM = "HOME_APPS_NUM"
     private val AUTO_SHOW_KEYBOARD = "AUTO_SHOW_KEYBOARD"
@@ -137,10 +136,6 @@ class Prefs(context: Context) {
         get() = prefs.getBoolean(FIRST_HIDE, true)
         set(value) = prefs.edit { putBoolean(FIRST_HIDE, value).apply() }
 
-    var userState: String
-        get() = prefs.getString(USER_STATE, Constants.UserState.START).toString()
-        set(value) = prefs.edit { putString(USER_STATE, value).apply() }
-
     var lockModeOn: Boolean
         get() = prefs.getBoolean(LOCK_MODE, false)
         set(value) = prefs.edit { putBoolean(LOCK_MODE, value).apply() }
@@ -148,10 +143,6 @@ class Prefs(context: Context) {
     var autoShowKeyboard: Boolean
         get() = prefs.getBoolean(AUTO_SHOW_KEYBOARD, true)
         set(value) = prefs.edit { putBoolean(AUTO_SHOW_KEYBOARD, value).apply() }
-
-    var keyboardMessageShown: Boolean
-        get() = prefs.getBoolean(KEYBOARD_MESSAGE, false)
-        set(value) = prefs.edit { putBoolean(KEYBOARD_MESSAGE, value).apply() }
 
     var dailyWallpaper: Boolean
         get() = prefs.getBoolean(DAILY_WALLPAPER, false)
@@ -194,7 +185,7 @@ class Prefs(context: Context) {
         set(value) = prefs.edit { putBoolean(SWIPE_RIGHT_ENABLED, value).apply() }
 
     var appTheme: Int
-        get() = prefs.getInt(APP_THEME, AppCompatDelegate.MODE_NIGHT_YES)
+        get() = prefs.getInt(APP_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         set(value) = prefs.edit { putInt(APP_THEME, value).apply() }
 
     var textSizeScale: Float
@@ -217,10 +208,6 @@ class Prefs(context: Context) {
         get() = prefs.getLong(LAUNCHER_RESTART_TIMESTAMP, 0L)
         set(value) = prefs.edit { putLong(LAUNCHER_RESTART_TIMESTAMP, value).apply() }
 
-    var shownOnDayOfYear: Int
-        get() = prefs.getInt(SHOWN_ON_DAY_OF_YEAR, 0)
-        set(value) = prefs.edit { putInt(SHOWN_ON_DAY_OF_YEAR, value).apply() }
-
     var homeButtonShowRecents: Boolean
         get() = prefs.getBoolean(HOME_BUTTON_SHOW_RECENTS, false)
         set(value) = prefs.edit { putBoolean(HOME_BUTTON_SHOW_RECENTS, value).apply() }
@@ -240,18 +227,6 @@ class Prefs(context: Context) {
     var aboutClicked: Boolean
         get() = prefs.getBoolean(ABOUT_CLICKED, false)
         set(value) = prefs.edit { putBoolean(ABOUT_CLICKED, value).apply() }
-
-    var rateClicked: Boolean
-        get() = prefs.getBoolean(RATE_CLICKED, false)
-        set(value) = prefs.edit { putBoolean(RATE_CLICKED, value).apply() }
-
-    var wallpaperMsgShown: Boolean
-        get() = prefs.getBoolean(WALLPAPER_MSG_SHOWN, false)
-        set(value) = prefs.edit { putBoolean(WALLPAPER_MSG_SHOWN, value).apply() }
-
-    var shareShownTime: Long
-        get() = prefs.getLong(SHARE_SHOWN_TIME, 0L)
-        set(value) = prefs.edit { putLong(SHARE_SHOWN_TIME, value).apply() }
 
     var swipeDownAction: Int
         get() = prefs.getInt(SWIPE_DOWN_ACTION, Constants.SwipeDownAction.NOTIFICATIONS)
@@ -534,7 +509,7 @@ class Prefs(context: Context) {
         set(value) = prefs.edit { putBoolean(IS_SHORTCUT_SWIPE_RIGHT, value) }
 
     var volumeKeysScrollEnabled: Boolean
-        get() = prefs.getBoolean(VOLUME_KEYS_SCROLL, false)
+        get() = prefs.getBoolean(VOLUME_KEYS_SCROLL, true)
         set(value) = prefs.edit { putBoolean(VOLUME_KEYS_SCROLL, value) }
 
     fun getAppName(location: Int): String {
