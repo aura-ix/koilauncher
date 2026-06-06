@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
@@ -36,6 +37,7 @@ import app.olauncher.helper.dpToPx
 import app.olauncher.helper.expandNotificationDrawer
 import app.olauncher.helper.getChangedAppTheme
 import app.olauncher.helper.getUserHandleFromString
+import app.olauncher.helper.isAccessServiceEnabled
 import app.olauncher.helper.isPackageInstalled
 import app.olauncher.helper.openAlarmApp
 import app.olauncher.helper.openCalendar
@@ -83,6 +85,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         super.onResume()
         populateHomeScreen(false)
         viewModel.isOlauncherDefault()
+        requireActivity().window.insetsController?.hide(WindowInsets.Type.navigationBars())
+        requireActivity().window.insetsController?.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE;
         if (prefs.showStatusBar) showStatusBar()
         else hideStatusBar()
     }
@@ -669,7 +674,12 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
             override fun onClick() {
                 super.onClick()
-                viewModel.checkForMessages.call()
+
+                if (!isAccessServiceEnabled(requireContext())) {
+                    requireContext().showToast(getString(R.string.recent_accessibility_perms_needed))
+                }
+
+                viewModel.showRecentApps.call()
             }
         }
     }

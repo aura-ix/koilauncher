@@ -93,6 +93,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             binding.footer.text = getText(R.string.new_app_minimal_todo_lists)
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.insetsController?.show(WindowInsets.Type.navigationBars())
+    }
+
     override fun onClick(view: View) {
         binding.appsNumSelectLayout.visibility = View.GONE
         binding.dateTimeSelectLayout.visibility = View.GONE
