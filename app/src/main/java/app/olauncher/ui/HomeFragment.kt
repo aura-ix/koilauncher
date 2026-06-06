@@ -562,6 +562,14 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         }
     }
 
+    private fun showRecents() {
+        if (!isAccessServiceEnabled(requireContext())) {
+            requireContext().showToast(getString(R.string.recent_accessibility_perms_needed))
+        }
+
+        viewModel.showRecentApps.call()
+    }
+
     private fun showStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
             requireActivity().window.insetsController?.show(WindowInsets.Type.statusBars())
@@ -672,14 +680,14 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                     lockPhone()
             }
 
+            override fun onSingleTap() {
+                super.onSingleTap()
+                if (prefs.lockModeOn) showRecents()
+            }
+
             override fun onClick() {
                 super.onClick()
-
-                if (!isAccessServiceEnabled(requireContext())) {
-                    requireContext().showToast(getString(R.string.recent_accessibility_perms_needed))
-                }
-
-                viewModel.showRecentApps.call()
+                if (!prefs.lockModeOn) showRecents()
             }
         }
     }
