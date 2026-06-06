@@ -117,6 +117,8 @@ class Prefs(context: Context) {
     private val SHORTCUT_ID_SWIPE_RIGHT = "SHORTCUT_ID_SWIPE_RIGHT"
     private val IS_SHORTCUT_SWIPE_RIGHT = "IS_SHORTCUT_SWIPE_RIGHT"
 
+    private val VOLUME_KEYS_SCROLL = "VOLUME_KEYS_SCROLL"
+
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
 
     var firstOpen: Boolean
@@ -530,6 +532,10 @@ class Prefs(context: Context) {
     var isShortcutSwipeRight: Boolean
         get() = prefs.getBoolean(IS_SHORTCUT_SWIPE_RIGHT, false)
         set(value) = prefs.edit { putBoolean(IS_SHORTCUT_SWIPE_RIGHT, value) }
+
+    var volumeKeysScrollEnabled: Boolean
+        get() = prefs.getBoolean(VOLUME_KEYS_SCROLL, false)
+        set(value) = prefs.edit { putBoolean(VOLUME_KEYS_SCROLL, value) }
 
     fun getAppName(location: Int): String {
         return when (location) {

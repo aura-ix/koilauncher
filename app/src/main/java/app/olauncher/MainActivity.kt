@@ -11,6 +11,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import androidx.activity.OnBackPressedCallback
@@ -59,6 +60,21 @@ class MainActivity : AppCompatActivity() {
 //        if (navController.currentDestination?.id != R.id.mainFragment)
 //            super.onBackPressed()
 //    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (prefs.volumeKeysScrollEnabled &&
+            navController.currentDestination?.id == R.id.appListFragment) {
+            val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
+            if (recyclerView != null) {
+                val pageHeight = recyclerView.height
+                when (keyCode) {
+                    KeyEvent.KEYCODE_VOLUME_DOWN -> { recyclerView.scrollBy(0, pageHeight); return true }
+                    KeyEvent.KEYCODE_VOLUME_UP   -> { recyclerView.scrollBy(0, -pageHeight); return true }
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
     override fun attachBaseContext(context: Context) {
         val newConfig = Configuration(context.resources.configuration)

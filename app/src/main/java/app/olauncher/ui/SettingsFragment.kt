@@ -81,6 +81,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateTextSize()
         populateAlignment()
         populateStatusBar()
+        populateVolumeKeysScroll()
         populateDateTime()
         populateSwipeApps()
         populateSwipeDownAction()
@@ -124,6 +125,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.alignmentRight -> viewModel.updateHomeAlignment(Gravity.END)
             R.id.alignmentBottom -> updateHomeBottomAlignment()
             R.id.statusBar -> toggleStatusBar()
+            R.id.volumeKeysScroll -> toggleVolumeKeysScroll()
             R.id.dateTime -> binding.dateTimeSelectLayout.visibility = View.VISIBLE
             R.id.dateTimeOn -> toggleDateTime(Constants.DateTime.ON)
             R.id.dateTimeOff -> toggleDateTime(Constants.DateTime.OFF)
@@ -221,6 +223,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.alignmentRight.setOnClickListener(this)
         binding.alignmentBottom.setOnClickListener(this)
         binding.statusBar.setOnClickListener(this)
+        binding.volumeKeysScroll.setOnClickListener(this)
         binding.dateTime.setOnClickListener(this)
         binding.dateTimeOn.setOnClickListener(this)
         binding.dateTimeOff.setOnClickListener(this)
@@ -321,6 +324,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             hideStatusBar()
             binding.statusBar.text = getString(R.string.off)
         }
+    }
+
+    private fun toggleVolumeKeysScroll() {
+        prefs.volumeKeysScrollEnabled = !prefs.volumeKeysScrollEnabled
+        populateVolumeKeysScroll()
+    }
+
+    private fun populateVolumeKeysScroll() {
+        binding.volumeKeysScroll.text = getString(
+            if (prefs.volumeKeysScrollEnabled) R.string.on else R.string.off
+        )
     }
 
     private fun toggleDateTime(selected: Int) {
