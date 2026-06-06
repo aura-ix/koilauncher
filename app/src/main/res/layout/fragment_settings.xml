@@ -576,32 +576,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:text="@string/volume_keys_scroll"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/volumeKeysScroll"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
                         android:text="@string/theme_mode"
                         android:textColor="?attr/primaryColor" />
 
@@ -644,8 +618,7 @@
                             android:layout_marginEnd="24dp"
                             android:gravity="center"
                             android:paddingVertical="6dp"
-                            android:text="@string/system_default"
-                            android:visibility="gone" />
+                            android:text="@string/system_default" />
 
                         <TextView
                             android:id="@+id/themeLight"
@@ -954,6 +927,32 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:padding="10dp"
+                        android:text="@string/off" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/volume_keys_scroll"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/volumeKeysScroll"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginEnd="4dp"
+                        android:padding="8dp"
                         android:text="@string/off" />
                 </FrameLayout>
             </LinearLayout>
