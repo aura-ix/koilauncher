@@ -276,10 +276,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun initObservers() {
-        if (prefs.firstSettingsOpen) {
-            viewModel.showDialog.postValue(Constants.Dialog.ABOUT)
-            prefs.firstSettingsOpen = false
-        }
+        // TODO: remove fully
+//        if (prefs.firstSettingsOpen) {
+//            viewModel.showDialog.postValue(Constants.Dialog.ABOUT)
+//            prefs.firstSettingsOpen = false
+//        }
         viewModel.isOlauncherDefault.observe(viewLifecycleOwner) {
             if (it) {
                 binding.setLauncher.text = getString(R.string.change_default_launcher)
@@ -515,8 +516,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun toggleKeyboardText() {
         if (prefs.autoShowKeyboard && prefs.keyboardMessageShown.not()) {
-            viewModel.showDialog.postValue(Constants.Dialog.KEYBOARD)
-            prefs.keyboardMessageShown = true
+            // TODO: remove fully
+//            viewModel.showDialog.postValue(Constants.Dialog.KEYBOARD)
+//            prefs.keyboardMessageShown = true
         } else {
             prefs.autoShowKeyboard = !prefs.autoShowKeyboard
             populateKeyboardText()
